@@ -1,6 +1,6 @@
 'use strict'
 
-let getUserHomePath = require('./utils').getUserHomePath
+let getUserHomePath = require('./bin/utils').getUserHomePath
 
 let dir = getUserHomePath() + '/.mongoarchive'
 
