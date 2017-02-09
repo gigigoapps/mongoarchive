@@ -1,0 +1,18 @@
+{
+    "amazonS3" : {
+        "key": "key",
+        "secret": "secret",
+        "region": "region",
+        "bucketName": "bucket"
+    },
+    "MONGO_URL": "localhost:27017",
+    "db":"db",
+    "collections": [
+        {
+            "name": "name",
+            "offset": 1, 
+            "field": "createdAt"
+        }
+    ],
+    "remove": true
+}
