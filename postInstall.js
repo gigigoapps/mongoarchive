@@ -8,7 +8,7 @@ let getUserHomePath = utils.getUserHomePath
 //create folder in user home ~/.mongoarchive/
 let dir = getUserHomePath() + '/.mongoarchive'
 if(!fs.existsSync(dir)) {
-    mkdirp(dir)
+    mkdirp.sync(dir)
 }
 
 //cp example.conf.json to ~/.mongoarchive/conf.json

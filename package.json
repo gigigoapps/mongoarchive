@@ -1,6 +1,6 @@
 {
   "name": "mongoarchive",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Archive data in Amazon S3 from Mongo",
   "main": "index.js",
   "scripts": {
