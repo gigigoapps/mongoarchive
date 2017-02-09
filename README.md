@@ -3,7 +3,7 @@
 Archive data in Amazon S3 from MongoDB. 
 
 ## Install and run
-- npm install -g
+- npm install mongoarchive -g
 - npm install pm2 -g
 - Edit the file ~/.mongoarchive/conf.json and set your Amazon S3 and MongoDB security params
 - mongoarchive --start
