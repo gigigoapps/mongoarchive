@@ -4,30 +4,41 @@ let fs = require('fs')
 let utils = require('./utils')
 let getUserHomePath = utils.getUserHomePath
 let safeJSONParse = utils.safeJSONParse
-
+let mkdirp = require('mkdirp')
+    
 exports.getConfig = () => {
     let confPath = getUserHomePath() + '/.mongoarchive/conf.json'
-    if(!fs.existsSync(confPath)) {
-        process.stdout.write('mongoarchive is using default options. Run: "node postinstall.js" to set your options')
-        confPath = './example.conf.json'
+    if(fs.existsSync(confPath)) {
+        return safeJSONParse(fs.readFileSync(confPath, 'utf8'))
+    } else {
+        console.log("\n First, you must run: mongoarchive --config")
+        return false
     }
 
-    return safeJSONParse(fs.readFileSync(confPath, 'utf8'))
 }
 
 exports.checkConfig = () => {
     let dir = getUserHomePath() + '/.mongoarchive'
     if(!fs.existsSync(dir)) {
-        process.stdout.write("\n mongoarchive has not been installed successfully in your system. Run postInstall.js")
+        console.log("\n First, you must run: mongoarchive --config")
         return false
     }
 
-    dir += '/process.json'
+    return true
+}
+
+exports.postInstall = () => {
+    //create folder in user home ~/.mongoarchive/
+    let dir = getUserHomePath() + '/.mongoarchive'
     if(!fs.existsSync(dir)) {
-        //cp the pm2 file example.process.json to ~/.mongoarchive/process.json
-        let pm2Data = fs.readFileSync('./example.process.json', 'utf8')
-        fs.writeFileSync(dir, pm2Data, 'utf8')
+        mkdirp.sync(dir)
     }
 
-    return true
+    //cp example.conf.json to ~/.mongoarchive/conf.json
+    let configData = fs.readFileSync('./example.conf.json', 'utf8')
+    fs.writeFileSync(dir + '/conf.json', configData, 'utf8')
+
+    //cp the pm2 file example.process.json to ~/.mongoarchive/process.json
+    let pm2Data = fs.readFileSync('./example.process.json', 'utf8')
+    fs.writeFileSync(dir + '/process.json', pm2Data, 'utf8')
 }

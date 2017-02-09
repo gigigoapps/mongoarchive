@@ -4,6 +4,7 @@ let Debug = require('debug')
 Debug.enable('mongoarchive:*')
 
 let checkConfig = require('./bin/config').checkConfig
+let postInstall = require('./bin/config').postInstall
 let daemon = require('./bin/daemon')
 let archive = require('./bin/archive')
 let mongoDB = require('./bin/db')
@@ -16,6 +17,7 @@ let argv = require('yargs')
     
     .describe('verbose', 'Enables verbose mode (extended log)')
     
+    .describe('config', 'Post install process')
     .describe('start', 'Start mongoarchive (pm2)')
     .describe('stop', 'Stop mongoarchive (pm2)')
     .describe('restart', 'Stop mongoarchive (pm2)')
@@ -65,4 +67,6 @@ if(argv.run && checkConfig()) {
     }
 
     running = false
+} else if(argv.config) {
+    postInstall()
 }
