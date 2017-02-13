@@ -1,8 +1,0 @@
-{
-  "apps" : [
-    {
-      "name"        : "mongoarchive",
-      "script"      : "index.js"
-    }
-  ]
-}

@@ -7,9 +7,9 @@ Debug.enable('mongoarchive:*')
 
 let checkConfig = require('./bin/config').checkConfig
 let postInstall = require('./bin/config').postInstall
-let daemon = require('./bin/daemon')
 let archive = require('./bin/archive')
 let mongoDB = require('./bin/db')
+let childProcess = require('child_process')
 let debug = Debug('mongoarchive:index')
 
 let argv = require('yargs')
@@ -22,8 +22,7 @@ let argv = require('yargs')
     .describe('config', 'Post install process')
     .describe('start', 'Start mongoarchive (pm2)')
     .describe('stop', 'Stop mongoarchive (pm2)')
-    .describe('restart', 'Stop mongoarchive (pm2)')
-    .describe('delete', 'Stop mongoarchive (pm2)')
+    .describe('delete', 'Delete mongoarchive (pm2)')
     .describe('run', false)
     .argv
 
@@ -58,17 +57,31 @@ if(argv.run && checkConfig()) {
 
 } else if(argv.start && checkConfig()) {
     if(!running) {
-        daemon.start()
+        debug('starting', 'starting with pm2')
+        childProcess.execSync('pm2 start mongoarchive -- run')
     }
 } else if(argv.stop) {
     //not restart
     clearInterval(interval)
         
     if(running) {
-        daemon.stop()
+        debug('starting', 'starting with pm2')
+        childProcess.execSync('pm2 stop mongoarchive')
     }
 
     running = false
+
+} else if(argv.delete) {
+    //not restart
+    clearInterval(interval)
+        
+    if(running) {
+        debug('deleting', 'deleting in pm2')
+        childProcess.execSync('pm2 delete mongoarchive')
+    }
+
+    running = false
+
 } else if(argv.config) {
     postInstall()
 }
