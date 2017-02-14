@@ -58,7 +58,7 @@ if(argv.run && checkConfig()) {
 } else if(argv.start && checkConfig()) {
     if(!running) {
         debug('starting', 'starting with pm2')
-        childProcess.execSync('pm2 start mongoarchive -- run')
+        childProcess.execSync('pm2 start mongoarchive -- --run')
     }
 } else if(argv.stop) {
     //not restart
