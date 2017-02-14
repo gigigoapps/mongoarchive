@@ -64,10 +64,8 @@ if(argv.run && checkConfig()) {
     //not restart
     clearInterval(interval)
         
-    if(running) {
-        debug('starting', 'starting with pm2')
-        childProcess.execSync('pm2 stop mongoarchive')
-    }
+    debug('stopping', 'stopping in pm2')
+    childProcess.execSync('pm2 stop mongoarchive')
 
     running = false
 
@@ -75,11 +73,9 @@ if(argv.run && checkConfig()) {
     //not restart
     clearInterval(interval)
         
-    if(running) {
-        debug('deleting', 'deleting in pm2')
-        childProcess.execSync('pm2 delete mongoarchive')
-    }
-
+    debug('deleting', 'deleting in pm2')
+    childProcess.execSync('pm2 delete mongoarchive')
+    
     running = false
 
 } else if(argv.config) {

@@ -1,6 +1,6 @@
 {
   "name": "mongoarchive",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Archive data in Amazon S3 from Mongo",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "bluebird": "^3.4.7",
     "child_process": "^1.0.2",
     "co": "^4.6.0",
-    "debug": "^2.6.0",
+    "debug": "^2.6.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.17.1",
     "mongodb": "^2.2.22",

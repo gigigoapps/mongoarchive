@@ -13,7 +13,7 @@ exports.fromMongoExport = (collection, field, startDate, endDate) => {
         ' -c ' + collection
     
     if(startDate && endDate) {
-        let query = "{" + field + ": {$gte: new Date(\"" + startDate.toISOString() + "\"), $lt: new Date(\"" + endDate.toISOString() + "\")}}"
+        let query = "{" + field + ": {$gte: new Date(" + startDate.valueOf() + "), $lt: new Date(" + endDate.valueOf() + ")}}"
         mongoExportCommand += " -q '" + query + "'"
     }
 

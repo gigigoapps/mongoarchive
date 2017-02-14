@@ -11,6 +11,3 @@ console.log("\n     - Edit: " + dir + "/conf.json (this file has the default con
 console.log("\n     - if you haven't installed pm2 yet: npm install pm2 -g")
 console.log("\n     - Run:  mongoarchive --start")
 console.log("\n\n")
-
-//end post install
-process.exit()

@@ -8,7 +8,6 @@ let moment = require('moment')
 
 exports.fromMongo = co.wrap(function*() {
     if(!config.collections || config.collections.length == 0) {
-        debug('muerte')
         return
     }
 
