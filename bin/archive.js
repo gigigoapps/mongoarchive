@@ -24,6 +24,7 @@ exports.run = co.wrap(function* () {
             date = moment(date)
             let startDate = date.startOf('day').toDate()
             let endDate = date.add(1, 'day').startOf('day').toDate()
+            date.subtract(1, 'day') //removing the day added to calculate endDate
 
             //read
             let dataReaded = readData.fromMongoExport(
