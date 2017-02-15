@@ -14,5 +14,6 @@
             "field": "createdAt"
         }
     ],
+    "connectTimeoutMS": 30000,
     "remove": true
 }

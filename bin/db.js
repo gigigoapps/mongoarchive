@@ -8,7 +8,7 @@ let debug = require('debug')('mongoarchive:db')
 let db
 exports.getConnection = co.wrap( function*() {
     if(!db) {
-        db = yield MongoClient.connect('mongodb://' + config.MONGO_URL + '/' + config.db)
+        db = yield MongoClient.connect('mongodb://' + config.MONGO_URL + '/' + config.db + '?socketTimeoutMS=' + config.connectTimeoutMS)
         debug('conection-open')
     }
 
