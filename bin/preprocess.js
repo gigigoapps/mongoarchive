@@ -7,7 +7,7 @@ let debug = require('debug')('mongoarchive:preprocess')
 let moment = require('moment')
 
 exports.fromMongo = co.wrap(function*() {
-    if(!config.collections || config.collections.length == 0) {
+    if(!config || !config.collections || config.collections.length == 0) {
         return
     }
 

@@ -14,6 +14,7 @@ exports.run = co.wrap(function* () {
     let collectionsDates = yield preprocess.fromMongo()
 
     if(!collectionsDates){
+        debug('no-collections')
         return
     }
 
