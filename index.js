@@ -3,7 +3,7 @@
 'use strict'
 
 let Debug = require('debug')
-Debug.enable('mongoarchive:*')
+//Debug.enable('mongoarchive:*')
 
 let checkConfig = require('./bin/config').checkConfig
 let postInstall = require('./bin/config').postInstall

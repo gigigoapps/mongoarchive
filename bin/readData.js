@@ -5,7 +5,7 @@ let config = require('./config').getConfig()
 let stream = require('stream')
 let debug = require('debug')('mongoarchive:readdata')
 
-exports.fromMongoExport = (collection, field, startDate, endDate) => {
+exports.fromMongo = (collection, field, startDate, endDate) => {
     let mongoExportCommand = 
         'mongoexport' +
         ' -h ' + config.MONGO_URL + 

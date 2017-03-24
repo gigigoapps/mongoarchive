@@ -18,12 +18,11 @@ exports.toS3 = (data, collection, date) => {
             region: config.amazonS3.region
         })
 
-        // save in _mongoarchive/collection/year/month/day/file.gz
+        // save in _mongoarchive/collection/year/month/file.gz
         let filePathS3 = '_mongoarchive/' + 
                         collection + '/' +
                         date.year() + '/' +
                         (date.month() + 1) + '/' +
-                        date.date() + '/' +
                         collection + '_' + date.format('YYYY-MM-DD') + '.gz'
 
         let upload = s3Stream(s3).upload({
