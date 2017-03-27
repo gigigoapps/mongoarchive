@@ -1,6 +1,6 @@
 {
   "name": "mongoarchive",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Archive data in Amazon S3 from Mongo",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,6 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.17.1",
     "mongodb": "^2.2.22",
-    "s3-upload-stream": "^1.0.7",
     "yargs": "^6.6.0"
   },
   "devDependencies": {

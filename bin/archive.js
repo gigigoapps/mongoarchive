@@ -21,7 +21,7 @@ exports.run = co.wrap(function* () {
         collectionNextDate.date.subtract(1, 'day') //removing the day added to calculate endDate
 
         //read
-        let dataReaded = readData.fromMongo(
+        let dataFilePath = readData.fromMongo(
             collectionNextDate.collection,
             collectionNextDate.field,
             startDate,
@@ -30,7 +30,7 @@ exports.run = co.wrap(function* () {
 
         //upload
         yield uploadData.toS3(
-            dataReaded, 
+            dataFilePath, 
             collectionNextDate.collection,
             collectionNextDate.date
         )
