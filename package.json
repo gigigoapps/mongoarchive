@@ -6,7 +6,8 @@
   "scripts": {
     "postinstall": "node postInstall.js",
     "dev": "DEBUG=mongoarchive* nodemon index.js --run",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/runner.js",
+    "cover": "istanbul cover test/runner.js"
   },
   "bin": {
     "mongoarchive": "./index.js"
@@ -36,6 +37,9 @@
     "chai": "^3.5.0",
     "eslint": "^3.14.1",
     "eslint-config-gigigo-standard": "^0.1.9",
-    "mocha": "^3.2.0"
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mongo-mock": "^2.4.0",
+    "s3rver": "^1.0.3"
   }
 }
