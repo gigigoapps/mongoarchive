@@ -31,7 +31,7 @@ exports.run = co.wrap(function* () {
         //upload
         yield uploadData.toS3(
             dataReaded, 
-            collectionNextDate.collection, 
+            collectionNextDate.collection,
             collectionNextDate.date
         )
 

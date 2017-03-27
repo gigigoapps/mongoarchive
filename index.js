@@ -3,7 +3,7 @@
 'use strict'
 
 let Debug = require('debug')
-//Debug.enable('mongoarchive:*')
+Debug.enable('mongoarchive:*')
 
 let checkConfig = require('./bin/config').checkConfig
 let postInstall = require('./bin/config').postInstall
@@ -13,7 +13,8 @@ let childProcess = require('child_process')
 let debug = Debug('mongoarchive:index')
 
 let argv = require('yargs')
-	.usage('Usage: mongoarchive [options]')
+    .version()
+	.usage('Usage: mongoarchive [option]')
 
     .help('help')
     
