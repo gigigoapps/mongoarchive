@@ -19,7 +19,7 @@ exports.toS3 = (dataFilePath, collection, date) => {
                         collection + '/' +
                         date.year() + '/' +
                         (date.month() + 1) + '/' +
-                        collection + '_' + date.format('YYYY-MM-DD') + '.gz'
+                        collection + '_' + date.format('YYYY-MM-DD') + '.json.gz'
 
         // Upload the stream
         let s3obj = new AWS.S3({
