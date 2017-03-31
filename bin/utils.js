@@ -16,3 +16,12 @@ exports.safeJSONParse = (json) => {
         return null
     }
 }
+
+let hasToStop = false
+exports.setHasToStop = () => {
+    hasToStop = true
+}
+
+exports.hasToStop = () => {
+    return hasToStop
+}

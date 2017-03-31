@@ -11,6 +11,11 @@ let archive = require('./bin/archive')
 let mongoDB = require('./bin/db')
 let childProcess = require('child_process')
 let debug = Debug('mongoarchive:index')
+let utils = require('./bin/utils')
+let processControl = require('./bin/processControl')
+
+let lockFile = '/tmp/mongoarchive.lock'
+
 
 let argv = require('yargs')
     .version()
@@ -29,22 +34,29 @@ let argv = require('yargs')
 
 
 let interval
-let running = false
-
 if(argv.run && checkConfig()) {
+    // process control
+    if(processControl.isRunning(lockFile)) {
+        debug('already-running')
+        return 
+    }
+    processControl.setRunningLockFile(lockFile)
+
     let run = () => {
-        if(!running) {
+        if(!processControl.isRunning(archive.lockFile)) {
             debug('init')
             
-            running = true
             archive.run()
             .then( () => {
                 mongoDB.closeConnection()
+                debug('finish', 'Done')
             })
             .catch((err) => {
-                debug('global-error', err)
                 mongoDB.closeConnection()
+                processControl.removeRunningLockFile(archive.lockFile)
+                debug('global-error', err)
             })
+
         }
     }
 
@@ -53,32 +65,58 @@ if(argv.run && checkConfig()) {
     
     //run after X seconds
     interval = setInterval(() => { 
-        run() 
+        run()   
     }, 60 * 60 * 1000)  //1 hour
 
 } else if(argv.start && checkConfig()) {
-    if(!running) {
+    if(!processControl.isRunning(lockFile)) {
         debug('starting', 'starting with pm2')
-        childProcess.execSync('pm2 start mongoarchive -- --run')
+        childProcess.execSync('pm2 start mongoarchive --kill-timeout 300000 -- --run')
+    } else {
+        console.log('Process already running')
     }
-} else if(argv.stop) {
-    //not restart
-    clearInterval(interval)
-        
-    debug('stopping', 'stopping in pm2')
-    childProcess.execSync('pm2 stop mongoarchive')
 
-    running = false
+} else if(argv.stop) {
+    if(processControl.isRunning(lockFile)) {
+        debug('stopping', 'stopping in pm2')
+        
+        //not restart
+        clearInterval(interval)
+        
+        // stop current process
+        childProcess.execSync('pm2 stop mongoarchive')
+        processControl.removeRunningLockFile(lockFile)
+        processControl.removeRunningLockFile(archive.lockFile)
+    } else {
+        console.log('Process already stopped')
+    }
 
 } else if(argv.delete) {
-    //not restart
-    clearInterval(interval)
-        
     debug('deleting', 'deleting in pm2')
-    childProcess.execSync('pm2 delete mongoarchive')
     
-    running = false
+    if(processControl.isRunning(lockFile)) {
+        //not restart
+        clearInterval(interval)
+    }
+
+    processControl.removeRunningLockFile(lockFile)
+    processControl.removeRunningLockFile(archive.lockFile)
+    childProcess.execSync('pm2 delete mongoarchive')    
 
 } else if(argv.config) {
     postInstall()
 }
+
+
+/**
+ * Clean stop handler
+ */
+process.on('SIGINT', function () {
+    debug('SIGINT')
+    if (processControl.isRunning(archive.lockFile)) {
+        debug('stoping-clean','waiting to clean stop')
+        utils.setHasToStop()
+    } else {
+        process.exit(100)
+    }
+})

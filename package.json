@@ -1,12 +1,13 @@
 {
   "name": "mongoarchive",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Archive data in Amazon S3 from Mongo",
   "main": "index.js",
   "scripts": {
     "postinstall": "node postInstall.js",
     "dev": "DEBUG=mongoarchive* nodemon index.js --run",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "bin": {
     "mongoarchive": "./index.js"

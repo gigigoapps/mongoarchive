@@ -6,9 +6,28 @@ let readData = require('./readData')
 let uploadData = require('./uploadData')
 let removeData = require('./removeData')
 let config = require('./config').getConfig()
+let mongoDB = require('./db')
 let co = require('co')
+let processControl = require('./processControl')
+let utils = require('./utils')
 
+
+let lockFile = '/tmp/mongoarchive-archive.lock'
+exports.lockFile = lockFile
+
+
+/**
+ * Archive process
+ */
 exports.run = co.wrap(function* () {
+    // process control
+    if(processControl.isRunning(lockFile)) {
+        debug('already-running')
+        return 
+    }
+    processControl.setRunningLockFile(lockFile)
+
+
     // get the first day of the collections
     yield preprocess.init()
     
@@ -45,8 +64,21 @@ exports.run = co.wrap(function* () {
             )
         }
 
-        collectionNextDate = preprocess.getNext()
+        if(utils.hasToStop()) {
+            mongoDB.closeConnection()
+            processControl.removeRunningLockFile(lockFile)
+            debug('clean-stop')
+
+            process.exit(101)
+        } else {
+            collectionNextDate = preprocess.getNext()
+        }
+        
+
     }
 
-    debug('finish', 'All collections archived')
+    processControl.removeRunningLockFile(lockFile)
+
+    return
+
 })

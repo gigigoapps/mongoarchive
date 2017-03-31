@@ -19,6 +19,7 @@ exports.getConnection = co.wrap( function*() {
 exports.closeConnection = () => {
     if(db) {
         db.close()
+        db = null
         debug('conection-close')
     }
 }

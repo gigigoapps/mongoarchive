@@ -15,5 +15,6 @@
         }
     ],
     "connectTimeoutMS": 30000,
-    "remove": true
+    "remove": true,
+    "tmpExportFilePath": "/tmp/mongoArchiveExport"
 }
