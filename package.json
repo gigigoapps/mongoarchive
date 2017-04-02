@@ -7,7 +7,8 @@
     "postinstall": "node postInstall.js",
     "dev": "DEBUG=mongoarchive* nodemon index.js --run",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "fixtures": "node fixtures.js"
   },
   "bin": {
     "mongoarchive": "./index.js"
@@ -37,6 +38,7 @@
     "chai": "^3.5.0",
     "eslint": "^3.14.1",
     "eslint-config-gigigo-standard": "^0.1.9",
+    "faker": "^4.1.0",
     "mocha": "^3.2.0"
   }
 }
