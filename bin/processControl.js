@@ -1,10 +1,8 @@
 'use strict'
 
-let debug = require('debug')('mongoarchive:lalala')
 let fs = require('fs')
 
 exports.isRunning = (lockFile) => {
-    debug(lockFile)
     if(fs.existsSync(lockFile))
         return true
     else

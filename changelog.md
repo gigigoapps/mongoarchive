@@ -1,3 +1,8 @@
+### 0.0.19
+- Fix bug: Not works well with *remove = false*
+- Add remove option for each collection
+- Add S3 bucket configuration for each collection
+
 ### 0.0.18
 - Added forgotten files of v0.0.17
 

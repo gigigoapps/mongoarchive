@@ -5,7 +5,6 @@ let preprocess = require('./preprocess')
 let readData = require('./readData')
 let uploadData = require('./uploadData')
 let removeData = require('./removeData')
-let config = require('./config').getConfig()
 let mongoDB = require('./db')
 let co = require('co')
 let processControl = require('./processControl')
@@ -33,7 +32,7 @@ exports.run = co.wrap(function* () {
     
     let collectionNextDate = preprocess.getNext()
     while(collectionNextDate) {
-        debug('archive', collectionNextDate)
+        debug('archive', collectionNextDate.collection, collectionNextDate.date)
 
         let startDate = collectionNextDate.date.toDate()
         let endDate = collectionNextDate.date.add(1, 'day').toDate()
@@ -51,19 +50,23 @@ exports.run = co.wrap(function* () {
         yield uploadData.toS3(
             dataFilePath, 
             collectionNextDate.collection,
-            collectionNextDate.date
+            collectionNextDate.date,
+            collectionNextDate.s3
         )
 
         //remove
-        if(config.remove) {
+        if(collectionNextDate.remove) {
             yield removeData.fromMongo(
                 collectionNextDate.collection,
                 collectionNextDate.field,
                 startDate,
                 endDate
             )
+        } else {
+            preprocess.saveLastDate(collectionNextDate.collection, collectionNextDate.date)
         }
 
+        // clean stop
         if(utils.hasToStop()) {
             mongoDB.closeConnection()
             processControl.removeRunningLockFile(lockFile)

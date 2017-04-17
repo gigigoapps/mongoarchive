@@ -1,9 +1,11 @@
 {
     "amazonS3" : {
-        "key": "key",
-        "secret": "secret",
-        "region": "region",
-        "bucketName": "bucket"
+        "s3Conection1": {
+            "key": "key",
+            "secret": "secret",
+            "region": "region",
+            "bucketName": "bucket"
+        }
     },
     "MONGO_URL": "localhost:27017",
     "db":"db",
@@ -11,10 +13,11 @@
         {
             "name": "name",
             "offset": 1, 
-            "field": "createdAt"
+            "field": "createdAt",
+            "s3": "s3Conection1",
+            "remove": true
         }
     ],
     "connectTimeoutMS": 30000,
-    "remove": true,
     "tmpExportFilePath": "/tmp/mongoArchiveExport"
 }

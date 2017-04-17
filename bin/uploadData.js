@@ -1,14 +1,13 @@
 'use strict'
 
 let debug = require('debug')('mongoarchive:uploaddata')
-let config = require('./config').getConfig()
 let zlib = require('zlib')
 let fs = require('fs')
 let AWS = require("aws-sdk")
 let Promise = require('bluebird')
 
 
-exports.toS3 = (dataFilePath, collection, date) => {
+exports.toS3 = (dataFilePath, collection, date, s3params) => {
     return new Promise((resolve, reject) => {
 
         // Load the stream
@@ -23,13 +22,13 @@ exports.toS3 = (dataFilePath, collection, date) => {
 
         // Upload the stream
         let s3obj = new AWS.S3({
-            accessKeyId: config.amazonS3.key,
-            secretAccessKey: config.amazonS3.secret,
-            region: config.amazonS3.region,
+            accessKeyId: s3params.key,
+            secretAccessKey: s3params.secret,
+            region: s3params.region,
             params: {
-                Bucket: config.amazonS3.bucketName,
+                Bucket: s3params.bucketName,
                 Key: filePathS3,
-                ACL: "bucket-owner-read"
+                ACL: "private"
             }
         })
 
