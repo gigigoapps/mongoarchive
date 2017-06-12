@@ -1,13 +1,15 @@
 'use strict'
 
 let childProcess = require('child_process')
+let db = require('./db')
 let config = require('./config').getConfig()
 
 exports.fromMongo = (collection, field, startDate, endDate) => {
+
     let mongoExportCommand = 
         'mongoexport' +
-        ' -h ' + config.MONGO_URL + 
-        ' -d ' + config.db + 
+        ' -h ' + db.getUriForMongoexport() + 
+        ' -d ' + db.getDatabaseName() + 
         ' -c ' + collection +
         ' -o ' + config.tmpExportFilePath
     

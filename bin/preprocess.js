@@ -43,10 +43,12 @@ let collectionsAndDates = []
 
 exports.init = co.wrap(function*() {
     if(!config) {
-        console.error('config-file-not-exists')
+        console.error('config file not exists')
+        return 
     }
 
     if(!config.collections || !config.collections.length) {
+        console.error('no collections in config file')
         return
     }
 

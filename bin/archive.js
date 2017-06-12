@@ -31,6 +31,7 @@ exports.run = co.wrap(function* () {
     
     let collectionNextDate = preprocess.getNext()
     while(collectionNextDate) {
+        console.log(' ')
         console.log('archive', collectionNextDate.collection, collectionNextDate.date)
 
         let startDate = collectionNextDate.date.toDate()

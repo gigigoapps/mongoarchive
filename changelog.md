@@ -1,3 +1,8 @@
+### 0.2.0
+- BREAKING CHANGE: new structure in configuration file: MONGO_URL, db and connectTimeoutMS replaced by mongodbConnectionUri
+- New mongodbConnectionUri parameter: use the mongo connection what you want https://docs.mongodb.com/manual/reference/connection-string/
+- Replica set support: you can use a replica set uri in the new mongodbConnectionUri parameter
+
 ### 0.1.0
 - BREAKING CHANGE: new structure in configuration file
 - Fix bug: Not works well with *remove = false*

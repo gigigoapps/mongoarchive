@@ -7,8 +7,7 @@
             "bucketName": "bucket"
         }
     },
-    "MONGO_URL": "localhost:27017",
-    "db":"db",
+    "mongodbConnectionUri" : "mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]",
     "collections": [
         {
             "name": "name",
@@ -18,6 +17,5 @@
             "remove": true
         }
     ],
-    "connectTimeoutMS": 30000,
     "tmpExportFilePath": "/tmp/mongoArchiveExport"
 }
