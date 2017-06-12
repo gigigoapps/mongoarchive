@@ -2,15 +2,11 @@
 
 'use strict'
 
-let Debug = require('debug')
-Debug.enable('mongoarchive:*')
-
 let checkConfig = require('./bin/config').checkConfig
 let postInstall = require('./bin/config').postInstall
 let archive = require('./bin/archive')
 let mongoDB = require('./bin/db')
 let childProcess = require('child_process')
-let debug = Debug('mongoarchive:index')
 let utils = require('./bin/utils')
 let processControl = require('./bin/processControl')
 
@@ -37,24 +33,24 @@ let interval
 if(argv.run && checkConfig()) {
     // process control
     if(processControl.isRunning(lockFile)) {
-        debug('already-running')
+        console.log('already-running')
         return 
     }
     processControl.setRunningLockFile(lockFile)
 
     let run = () => {
         if(!processControl.isRunning(archive.lockFile)) {
-            debug('init')
+            console.log('init')
             
             archive.run()
             .then( () => {
                 mongoDB.closeConnection()
-                debug('finish', 'Done')
+                console.log('finish', 'Done')
             })
             .catch((err) => {
                 mongoDB.closeConnection()
                 processControl.removeRunningLockFile(archive.lockFile)
-                debug('global-error', err)
+                console.error('global-error', err)
             })
 
         }
@@ -70,7 +66,7 @@ if(argv.run && checkConfig()) {
 
 } else if(argv.start && checkConfig()) {
     if(!processControl.isRunning(lockFile)) {
-        debug('starting', 'starting with pm2')
+        console.log('starting', 'starting with pm2')
         childProcess.execSync('pm2 start mongoarchive --kill-timeout 300000 -- --run')
     } else {
         console.log('Process already running')
@@ -78,7 +74,7 @@ if(argv.run && checkConfig()) {
 
 } else if(argv.stop) {
     if(processControl.isRunning(lockFile)) {
-        debug('stopping', 'stopping in pm2')
+        console.log('stopping', 'stopping in pm2')
         
         //not restart
         clearInterval(interval)
@@ -92,7 +88,7 @@ if(argv.run && checkConfig()) {
     }
 
 } else if(argv.delete) {
-    debug('deleting', 'deleting in pm2')
+    console.log('deleting', 'deleting in pm2')
     
     if(processControl.isRunning(lockFile)) {
         //not restart
@@ -112,9 +108,9 @@ if(argv.run && checkConfig()) {
  * Clean stop handler
  */
 process.on('SIGINT', function () {
-    debug('SIGINT')
+    console.log('SIGINT')
     if (processControl.isRunning(archive.lockFile)) {
-        debug('stoping-clean','waiting to clean stop')
+        console.log('stoping-clean','waiting to clean stop')
         utils.setHasToStop()
     } else {
         process.exit(100)

@@ -5,7 +5,6 @@ let utils = require('./utils')
 let getUserHomePath = utils.getUserHomePath
 let safeJSONParse = utils.safeJSONParse
 let mkdirp = require('mkdirp')
-let debug = require('debug')('mongoarchive:config')
     
 exports.getConfig = () => {
     let confPath = getUserHomePath() + '/.mongoarchive/conf.json'
@@ -21,11 +20,9 @@ exports.getConfig = () => {
             }
 
         } catch(err) {
-            debug('error-reading-config-file', err)
-            debug('error-reading-config-file-path', confPath)
+            console.error('error-reading-config-file', err)
+            console.error('error-reading-config-file-path', confPath)
         }
-    } else {
-        debug('config-file-not-exists', 'File path: ' + confPath)
     }
 }
 

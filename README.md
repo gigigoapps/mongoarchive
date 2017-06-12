@@ -2,7 +2,7 @@
 
 Archive data in Amazon S3 from MongoDB. 
 
-**IMPORTANT: This is not production version. We are working on it, looking for the best solution, so it is an unstable version**
+**IMPORTANT: BETA version.**
 
 ## Install and run
 - npm install mongoarchive -g

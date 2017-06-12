@@ -2,7 +2,6 @@
 
 let childProcess = require('child_process')
 let config = require('./config').getConfig()
-let debug = require('debug')('mongoarchive:readdata')
 
 exports.fromMongo = (collection, field, startDate, endDate) => {
     let mongoExportCommand = 
@@ -17,7 +16,7 @@ exports.fromMongo = (collection, field, startDate, endDate) => {
         mongoExportCommand += " -q '" + query + "'"
     }
 
-    debug('mongoexport-command', mongoExportCommand)
+    console.log('mongoexport-command', mongoExportCommand)
     childProcess.execSync(mongoExportCommand)
 
     return config.tmpExportFilePath

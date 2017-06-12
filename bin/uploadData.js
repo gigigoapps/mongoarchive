@@ -1,6 +1,5 @@
 'use strict'
 
-let debug = require('debug')('mongoarchive:uploaddata')
 let zlib = require('zlib')
 let fs = require('fs')
 let AWS = require("aws-sdk")
@@ -41,15 +40,15 @@ exports.toS3 = (dataFilePath, collection, date, s3params) => {
         // Upload
         s3obj.upload({Body: body}, opts)
             .on('httpUploadProgress', function(evt) {
-                debug('upload-part', evt.loaded, '/', evt.total)
+                console.log('upload-part', evt.loaded, '/', evt.total)
             })
             .send(function(err, data) {
                 if (err) {
-                    debug('upload-error', err)
+                    console.error('upload-error', err)
                     reject(err)
                 }
 
-                debug('upload-finish')
+                console.log('upload-finish')
                 fs.unlinkSync(dataFilePath)
                 resolve(data)
             })

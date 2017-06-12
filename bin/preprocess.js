@@ -3,7 +3,6 @@
 let config = require('./config').getConfig()
 let mongoDB = require('./db')
 let co = require('co')
-let debug = require('debug')('mongoarchive:preprocess')
 let moment = require('moment')
 let fs = require('fs')
 let utils = require('./utils')
@@ -24,8 +23,8 @@ let getPreprocessPersistentData = () => {
             }
 
         } catch(err) {
-            debug('error-reading-data-file', err)
-            debug('error-reading-data-file-path', dataFilePath)
+            console.error('error-reading-data-file', err)
+            console.error('error-reading-data-file-path', dataFilePath)
         }
     }
 }
@@ -43,7 +42,11 @@ let setPreprocessPersistentData = (key, value) => {
 let collectionsAndDates = []
 
 exports.init = co.wrap(function*() {
-    if(!config || !config.collections || !config.collections.length) {
+    if(!config) {
+        console.error('config-file-not-exists')
+    }
+
+    if(!config.collections || !config.collections.length) {
         return
     }
 
@@ -53,7 +56,7 @@ exports.init = co.wrap(function*() {
     let db = yield mongoDB.getConnection()
 
     for(let collection of config.collections) {
-        debug('preprocessing', 'Collection: ' + collection.name)
+        console.log('preprocessing', 'Collection: ' + collection.name)
 
         let field = collection.field
         let lastDate = moment().subtract(collection.offset, 'days').startOf('day')

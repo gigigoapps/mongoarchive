@@ -1,6 +1,5 @@
 'use strict'
 
-let debug = require('debug')('mongoarchive:archive')
 let preprocess = require('./preprocess')
 let readData = require('./readData')
 let uploadData = require('./uploadData')
@@ -21,7 +20,7 @@ exports.lockFile = lockFile
 exports.run = co.wrap(function* () {
     // process control
     if(processControl.isRunning(lockFile)) {
-        debug('already-running')
+        console.log('already-running')
         return 
     }
     processControl.setRunningLockFile(lockFile)
@@ -32,7 +31,7 @@ exports.run = co.wrap(function* () {
     
     let collectionNextDate = preprocess.getNext()
     while(collectionNextDate) {
-        debug('archive', collectionNextDate.collection, collectionNextDate.date)
+        console.log('archive', collectionNextDate.collection, collectionNextDate.date)
 
         let startDate = collectionNextDate.date.toDate()
         let endDate = collectionNextDate.date.add(1, 'day').toDate()
@@ -70,7 +69,7 @@ exports.run = co.wrap(function* () {
         if(utils.hasToStop()) {
             mongoDB.closeConnection()
             processControl.removeRunningLockFile(lockFile)
-            debug('clean-stop')
+            console.log('clean-stop')
 
             process.exit(101)
         } else {
